@@ -1,0 +1,157 @@
+version: 2.1
+
+defaults: &defaults
+  docker:
+    - image: circleci/node:12.9.1-stretch
+  working_directory: ~/project
+
+orbs:
+  slack: circleci/slack@3.4.2
+
+commands:
+  build_project:
+    description: Build the project
+    parameters:
+      NODE_ENV:
+        type: env_var_name
+      API_URL:
+        type: env_var_name
+      LOGIN_REDIRECT_URI:
+        type: env_var_name
+    steps:
+      # Checkout the code from the branch into the working_directory
+      - checkout
+      # Log the current branch
+      - run:
+          name: Show current branch
+          command: echo ${CIRCLE_BRANCH}
+      # Create .env file
+      - run:
+          name: Create .env file
+          command: |
+            touch .env
+            echo "# Frontend" >> .env
+            echo "NODE_ENV=${<< parameters.NODE_ENV >>}" >> .env
+            echo "API_URL=${<< parameters.API_URL >>}" >> .env
+            echo "LOGIN_REDIRECT_URI=${<< parameters.LOGIN_REDIRECT_URI >>}" >> .env
+      # Restore local dependencies from cache
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      # Install project dependencies
+      - run:
+          name: Install local dependencies
+          command: npm install
+      # Cache local dependencies if they don't exist
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Building
+          command: npm run prebuild
+      # Build project with different configuration based on
+      # the current branch
+      - run:
+          name: Building
+          command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+
+  deploy_project:
+    description: Build the project
+    parameters:
+      FOLDER:
+        type: env_var_name
+    steps:
+      - run: echo ${CIRCLE_BRANCH}
+      - attach_workspace:
+          at: .
+      - run:
+          name: Archive build artifact
+          command: cd build && zip -r ../buildartifact.zip . && cd ..
+      - run:
+          name: Clean folder
+          command: |
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "rm -rf ${<< parameters.FOLDER >>}/build"
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "mkdir -p ${<< parameters.FOLDER >>}/build"
+      - run:
+          name: Deploy Over SCP
+          command: |
+            scp buildartifact.zip $SSH_USER@$SSH_HOST:${<< parameters.FOLDER >>}/build/
+      - run:
+          name: Extract archive
+          command: |
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${<< parameters.FOLDER >>}/build && unzip buildartifact.zip"
+      - run:
+          name: Clean archive
+          command: |
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "rm ${<< parameters.FOLDER >>}/build/buildartifact.zip"
+      - run:
+          name: Restart docker-compose
+          command: |
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd ${<< parameters.FOLDER >>} && docker-compose restart"
+
+jobs:
+  prod_build:
+    <<: *defaults
+    steps:
+      - build_project:
+          NODE_ENV: PROD_NODE_ENV
+          API_URL: PROD_API_URL
+          LOGIN_REDIRECT_URI: PROD_LOGIN_REDIRECT_URI
+
+  qa_build:
+    <<: *defaults
+    steps:
+      - build_project:
+          NODE_ENV: QA_NODE_ENV
+          API_URL: QA_API_URL
+          LOGIN_REDIRECT_URI: QA_LOGIN_REDIRECT_URI
+
+  prod_deploy:
+    <<: *defaults
+    steps:
+      - deploy_project:
+          FOLDER: PROD_FOLDER
+      - slack/status:
+          failure_message: ':red_circle: A prod deploy job has failed!'
+          success_message: ':champagne: A prod deploy job has succeeded!'
+
+  qa_deploy:
+    <<: *defaults
+    steps:
+      - deploy_project:
+          FOLDER: QA_FOLDER
+      - slack/status:
+          failure_message: ':red_circle: A QA deploy job has failed!'
+          success_message: ':rocket: A QA deploy job has succeeded!'
+
+
+workflows:
+  version: 2
+  prod_build_and_deploy:
+    jobs:
+      - prod_build:
+          filters:
+            branches:
+              only:
+                - master
+      - prod_deploy:
+          requires:
+            - prod_build
+
+  develop_build_and_deploy:
+    jobs:
+      - qa_build:
+          filters:
+            branches:
+              only:
+                - develop
+      - qa_deploy:
+          requires:
+            - qa_build
