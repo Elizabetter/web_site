@@ -33,6 +33,7 @@ import { Pay } from '../Pay';
 import { Cart } from '../Cart';
 import { Users } from '../Users';
 import { Orders } from '../Orders';
+import { AddProduct } from '../AddPoduct';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -77,6 +78,7 @@ export default function App() {
         <Route path={routes.CONTACTS} component={Contacts} />
         <Route path={routes.USERS} component={Users} />
         <Route path={routes.ORDERS} component={Orders} />
+        <Route path={routes.ADD_PRODUCT} component={AddProduct} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

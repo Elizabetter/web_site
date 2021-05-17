@@ -17,3 +17,4 @@ export const ADD_PRODUCTS = id => `add_product/${id}`;
 export const DELETE_PRODUCTS = id => `delete_product/${id}`;
 export const CART = userId => `users/${userId}/active_order`;
 export const CONFIRM = 'confirm_order';
+export const ADD = 'create_product';

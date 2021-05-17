@@ -4,9 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { useHistory } from 'react-router-dom';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useAuthDataContext } from '../../auth/AuthDataProvider';
 import { alertType, roleTypes } from '../../constants/api';
 import {
@@ -16,45 +14,72 @@ import {
 } from '../../constants/endpoints';
 import { updateOne } from '../../dataProvider/API';
 import CustomizedSnackbars from '../Alert';
-import { routes } from '../../constants/routes';
 
 export const useStyles = makeStyles(() => ({
   root: {
-    width: 400,
-    minHeight: 200,
+    width: 280,
+    minHeight: 100,
     margin: 40,
     padding: 30,
-    backgroundColor: 'black',
+    backgroundColor: '#808080',
+  },
+  box: {
+    // display: 'flex',
+    width: 200,
+    textAlign: 'center',
   },
   final: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gridTemplateRows: 'repeat(3)',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gridTemplateRows: 'repeat(4)',
   },
   title: {
-    marginTop: -20,
+    marginTop: -10,
     color: 'white',
-    display: 'flex',
   },
   content: {
     color: 'white',
-    marginTop: -10,
+  },
+  price: {
+    color: 'white',
+    fontSize: 25,
+  },
+  currency: {
+    color: 'white',
+    marginLeft: 5,
+    marginTop: 10,
+  },
+  cost: {
+    color: 'white',
     margin: 10,
-    width: '50%',
+    marginLeft: -2,
+    marginTop: 10,
+    display: 'flex',
   },
   contentDate: {
     color: 'white',
-    margin: 10,
+    marginTop: 10,
   },
   delete: {
     marginTop: 17,
     color: 'white',
     height: 30,
   },
+  add: {
+    marginTop: 17,
+    marginLeft: -5,
+    backgroundColor: 'white',
+    color: 'black',
+    height: 30,
+    '&:hover': {
+      backgroundColor: 'grey',
+      color: 'black',
+    },
+  },
   icon: {
     marginTop: -4,
-    marginLeft: -10,
-    color: 'white',
+    marginLeft: 10,
+    color: 'black',
   },
   block: {
     display: 'flex',
@@ -64,7 +89,6 @@ export const useStyles = makeStyles(() => ({
 function ProductCard({ product, cart }) {
   const classes = useStyles();
   const { user } = useAuthDataContext();
-  const history = useHistory();
   let role;
   if (user) {
     // eslint-disable-next-line prefer-destructuring
@@ -89,61 +113,53 @@ function ProductCard({ product, cart }) {
         />
       )}
       <Card className={classes.root}>
-        <div className={classes.title}>
-          <h2>{product.title}</h2>
-          {role === roleTypes.USER && !cart && (
-            <Button
-              className={classes.delete}
-              onClick={() => {
-                updateOne(USERS_ID(user.id), ADD_PRODUCTS(product.id))
-                  // eslint-disable-next-line no-unused-vars
-                  .then(r => {
-                    setShowAlert(true);
-                    setTimeout(function() {
-                      setShowAlert(false);
-                    }, 5000);
-                  })
-                  // eslint-disable-next-line no-unused-vars
-                  .catch(r => {
-                    setShowErrorAlert(true);
-                    setTimeout(function() {
-                      setShowErrorAlert(false);
-                    }, 5000);
-                  });
-              }}
-            >
-              <AddCircleIcon fontSize="small" />
-            </Button>
-          )}
-          {role === roleTypes.USER && cart && (
-            <Button
-              className={classes.delete}
-              onClick={() => {
-                updateOne(USERS_ID(user.id), DELETE_PRODUCTS(product.id)).then(
-                  // eslint-disable-next-line no-unused-vars
-                  r => history.push(routes.CART),
-                );
-              }}
-            >
-              <RemoveCircleOutlineIcon fontSize="small" />
-            </Button>
-          )}
+        <div className={classes.box}>
+          <h2 className={classes.title}>{product.title}</h2>
         </div>
-        <div className={classes.block}>
-          <div className={classes.content}>
-            <b>Описание:</b> {product.description}
-            <br />
-            <b>Цена:</b> {product.price} бел.руб.
-          </div>
-          {/*  /!*<div className={classes.content}>*!/ */}
-          {/*  /!*  <b>Номер телефона:</b> {ad.phoneNumber}*!/ */}
-          {/*  /!*  <br />*!/ */}
-          {/*  /!*  <b>Цена:</b> {ad.price} бел.руб.*!/ */}
-          {/*  /!*</div>*!/ */}
+        <div className={classes.content}>{product.description}</div>
+        <div className={classes.cost}>
+          <div className={classes.price}>{product.price}</div>
+          <div className={classes.currency}>бел.руб.</div>
         </div>
-        {/* <div className={classes.contentDate}> */}
-        {/*  <b>Дата создания:</b> {ad.dateOfPlacement} */}
-        {/* </div> */}
+        {role === roleTypes.USER && !cart && (
+          <Button
+            className={classes.add}
+            onClick={() => {
+              updateOne(USERS_ID(user.id), ADD_PRODUCTS(product.id))
+                // eslint-disable-next-line no-unused-vars
+                .then(r => {
+                  setShowAlert(true);
+                  setTimeout(function() {
+                    setShowAlert(false);
+                  }, 5000);
+                })
+                // eslint-disable-next-line no-unused-vars
+                .catch(r => {
+                  setShowErrorAlert(true);
+                  setTimeout(function() {
+                    setShowErrorAlert(false);
+                  }, 5000);
+                });
+            }}
+          >
+            Положить в корзину
+            <ShoppingCartIcon className={classes.icon} fontSize="small" />
+          </Button>
+        )}
+        {role === roleTypes.USER && cart && (
+          <Button
+            className={classes.add}
+            onClick={() => {
+              updateOne(USERS_ID(user.id), DELETE_PRODUCTS(product.id)).then(
+                // eslint-disable-next-line no-return-assign,no-unused-vars
+                r => (window.location = window.location.href),
+              );
+            }}
+          >
+            Удалить из корзины
+            <ShoppingCartIcon className={classes.icon} fontSize="small" />
+          </Button>
+        )}
       </Card>
     </Grid>
   );

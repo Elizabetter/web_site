@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import PageTemplate from '../PageTemplate';
 import { CAMERAS } from '../../constants/endpoints';
 import { getList } from '../../dataProvider/API';
-import ProductCard from '../../components/ProductCard';
+import ProductCard, { useStyles } from '../../components/ProductCard';
 
 export function Cameras() {
+  const classes = useStyles();
   const [response, setResponse] = React.useState([]);
   useEffect(() => {
     getList(CAMERAS).then(r => {
@@ -18,5 +19,9 @@ export function Cameras() {
     <p>Нет товаров</p>
   );
 
-  return <PageTemplate header="Камеры для дронов">{productCards}</PageTemplate>;
+  return (
+    <PageTemplate header="Камеры для дронов">
+      <div className={classes.final}>{productCards}</div>
+    </PageTemplate>
+  );
 }

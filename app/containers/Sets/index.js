@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import PageTemplate from '../PageTemplate';
 import { ACCESSORIES } from '../../constants/endpoints';
 import { getList } from '../../dataProvider/API';
-import ProductCard from '../../components/ProductCard';
+import ProductCard, { useStyles } from '../../components/ProductCard';
 
 export function Sets() {
+  const classes = useStyles();
   const [response, setResponse] = React.useState([]);
   useEffect(() => {
     getList(ACCESSORIES).then(r => {
@@ -20,7 +21,7 @@ export function Sets() {
 
   return (
     <PageTemplate header="Комплектующие для дронов">
-      {productCards}
+      <div className={classes.final}>{productCards}</div>
     </PageTemplate>
   );
 }

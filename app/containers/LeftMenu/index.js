@@ -130,6 +130,14 @@ const LeftMenu = ({ handleDrawerToggle, mobileOpen }) => {
               button
               onClick={() => window.open('https://vk.com/arturqa_s', '_blank')}
             >
+              <ListItemText primary="Админ DB" />
+            </ListItem>
+          )}
+          {user && role === roleTypes.ADMIN && (
+            <ListItem
+              button
+              onClick={() => window.open('https://vk.com/arturqa_s', '_blank')}
+            >
               <ListItemText primary="Админ" />
             </ListItem>
           )}

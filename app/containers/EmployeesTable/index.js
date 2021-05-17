@@ -10,19 +10,14 @@ import {
   TableCell,
 } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import Button from '@material-ui/core/Button';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { useHistory } from 'react-router-dom';
-import messages from './messages';
+import messages from '../Users/messages';
 import { TableTitle } from '../TableTitle';
 import CheckboxField from '../../components/FormFields/CheckboxField';
 // eslint-disable-next-line import/no-cycle
 import { useStyles } from '../Users/index';
-import { routes } from '../../constants/routes';
 
-const ProductTable = ({ products, handleClick, isSelected }) => {
+const EmployeesTable = ({ employees, handleClick, isSelected }) => {
   const classes = useStyles();
-  const history = useHistory();
 
   return (
     <>
@@ -31,31 +26,26 @@ const ProductTable = ({ products, handleClick, isSelected }) => {
           <TableHead className={classes.head}>
             <TableRow>
               <TableTitle>
-                <Button
-                  onClick={() => {
-                    history.push(routes.ADD_PRODUCT);
-                  }}
-                >
-                  <AddCircleIcon fontSize="small" />
-                </Button>
+                <div />
               </TableTitle>
               <TableTitle>
-                <FormattedMessage {...messages.title} />
+                <FormattedMessage {...messages.employee} />
               </TableTitle>
               <TableTitle>
-                <FormattedMessage {...messages.category} />
+                <FormattedMessage {...messages.login} />
               </TableTitle>
               <TableTitle>
-                <FormattedMessage {...messages.description} />
+                <FormattedMessage {...messages.email} />
               </TableTitle>
               <TableTitle>
-                <FormattedMessage {...messages.price} />
+                <FormattedMessage {...messages.role} />
               </TableTitle>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map(row => {
-              const { id, title, description, category, price } = row;
+            {employees.map(row => {
+              const { id, firstName, lastName, email, role, login } = row;
+              const fullName = [lastName, firstName].join(' ');
               const isItemSelected = isSelected(id);
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={id}>
@@ -68,10 +58,10 @@ const ProductTable = ({ products, handleClick, isSelected }) => {
                       checked={isItemSelected}
                     />
                   </TableCell>
-                  <TableCell>{title}</TableCell>
-                  <TableCell>{category}</TableCell>
-                  <TableCell>{description}</TableCell>
-                  <TableCell>{price} бел.руб.</TableCell>
+                  <TableCell>{fullName}</TableCell>
+                  <TableCell>{login}</TableCell>
+                  <TableCell>{email}</TableCell>
+                  <TableCell>{role}</TableCell>
                 </TableRow>
               );
             })}
@@ -82,11 +72,13 @@ const ProductTable = ({ products, handleClick, isSelected }) => {
   );
 };
 
-ProductTable.propTypes = {
-  products: PropTypes.array.isRequired,
+EmployeesTable.propTypes = {
+  employees: PropTypes.array.isRequired,
   selected: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  deleteEmployees: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
 };
 
-export default ProductTable;
+export default EmployeesTable;

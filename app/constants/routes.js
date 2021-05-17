@@ -9,6 +9,7 @@ export const routes = {
   EMPTY_PAGE: '/empty',
   PROFILE: '/profile',
   PRODUCTS: '/products',
+  ADD_PRODUCT: '/add_product',
   QUADCOPTERS: '/quadcopters',
   PAY: '/pay',
   DRONS: '/drons',
