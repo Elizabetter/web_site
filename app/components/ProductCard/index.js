@@ -18,13 +18,12 @@ import CustomizedSnackbars from '../Alert';
 export const useStyles = makeStyles(() => ({
   root: {
     width: 280,
-    minHeight: 100,
+    height: 150,
     margin: 40,
     padding: 30,
     backgroundColor: '#808080',
   },
   box: {
-    // display: 'flex',
     width: 200,
     textAlign: 'center',
   },
