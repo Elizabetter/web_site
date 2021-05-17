@@ -37,16 +37,19 @@ const AddProductForm = ({ onSubmit }) => {
   // const file = new FormData(array);
   const sendOnlyModified = formData => {
     const { title, description, category, price } = formData;
-
+    const photo = array;
+    const final = [];
+    final.push(photo, title, description, category, price);
+    console.log(final);
     const formDataFile = new FormData();
-    formDataFile.append('file', { array });
+    formDataFile.append('file', { final });
     console.log(array, formDataFile);
     const data = {
+      photo,
       title,
       description,
       category,
       price,
-      photo: formDataFile,
     };
     onSubmit(data);
   };

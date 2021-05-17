@@ -25,7 +25,15 @@ export function AddProduct() {
 
   const onEditUserFormSubmit = ({ ...data }) => {
     // e.preventDefault();
-    create(ADD, data);
+    const API_ENDPOINT = id => `http://localhost:8080/create_product/${id}`;
+    const request = new XMLHttpRequest();
+    const formDataFile = new FormData();
+    const { photo, title, description, category, price } = data;
+    formDataFile.append('file', photo);
+    create(ADD, { title, description, category, price }).then(r => {
+      request.open('POST', API_ENDPOINT(r.id), true);
+      request.send(formDataFile);
+    });
   };
 
   return (
