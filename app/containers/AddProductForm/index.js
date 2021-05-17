@@ -40,10 +40,8 @@ const AddProductForm = ({ onSubmit }) => {
     const photo = array;
     const final = [];
     final.push(photo, title, description, category, price);
-    console.log(final);
     const formDataFile = new FormData();
     formDataFile.append('file', { final });
-    console.log(array, formDataFile);
     const data = {
       photo,
       title,

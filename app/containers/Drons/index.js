@@ -9,7 +9,7 @@ export function Drones() {
   const [response, setResponse] = React.useState([]);
   useEffect(() => {
     getList(RACER_DRONES).then(r => {
-      setResponse(r.data.content);
+      setResponse(r.data);
     });
   }, []);
 

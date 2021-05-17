@@ -9,7 +9,7 @@ export function Quadcopters() {
   const [response, setResponse] = React.useState([]);
   useEffect(() => {
     getList(DRONES).then(r => {
-      setResponse(r.data.content);
+      setResponse(r.data);
     });
   }, []);
   const productCards = response ? (

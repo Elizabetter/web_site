@@ -9,7 +9,7 @@ export function Products() {
   const [response, setResponse] = React.useState([]);
   useEffect(() => {
     getList(PRODUCTS).then(r => {
-      setResponse(r.data.content);
+      setResponse(r.data);
     });
   }, []);
   const [selected, setSelected] = React.useState([]);

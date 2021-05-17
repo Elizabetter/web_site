@@ -9,7 +9,7 @@ export function Sets() {
   const [response, setResponse] = React.useState([]);
   useEffect(() => {
     getList(ACCESSORIES).then(r => {
-      setResponse(r.data.content);
+      setResponse(r.data);
     });
   }, []);
 

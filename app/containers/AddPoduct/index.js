@@ -24,14 +24,13 @@ export function AddProduct() {
   const classes = useStyles();
 
   const onEditUserFormSubmit = ({ ...data }) => {
-    // e.preventDefault();
-    const API_ENDPOINT = id => `http://localhost:8080/create_product/${id}`;
+    const API_ENDPOINT = id => `http://localhost:8080/product/${id}`;
     const request = new XMLHttpRequest();
     const formDataFile = new FormData();
     const { photo, title, description, category, price } = data;
     formDataFile.append('file', photo);
     create(ADD, { title, description, category, price }).then(r => {
-      request.open('POST', API_ENDPOINT(r.id), true);
+      request.open('PUT', API_ENDPOINT(r.entity), true);
       request.send(formDataFile);
     });
   };

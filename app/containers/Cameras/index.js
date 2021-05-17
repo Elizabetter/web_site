@@ -9,7 +9,7 @@ export function Cameras() {
   const [response, setResponse] = React.useState([]);
   useEffect(() => {
     getList(CAMERAS).then(r => {
-      setResponse(r.data.content);
+      setResponse(r.data);
     });
   }, []);
 

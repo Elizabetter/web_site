@@ -18,10 +18,16 @@ import CustomizedSnackbars from '../Alert';
 export const useStyles = makeStyles(() => ({
   root: {
     width: 280,
-    height: 150,
+    height: 350,
     margin: 40,
     padding: 30,
-    backgroundColor: '#808080',
+    backgroundColor: 'black',
+  },
+  image: {
+    marginTop: -10,
+    width: 260,
+    height: 150,
+    marginLeft: -10,
   },
   box: {
     width: 200,
@@ -97,6 +103,7 @@ function ProductCard({ product, cart }) {
   }
   const [showAlert, setShowAlert] = React.useState(false);
   const [showErrorAlert, setShowErrorAlert] = React.useState(false);
+  const image = `data:image/jpg;base64, ${product.photo}`;
   return (
     <Grid item xs={12} sm={12} md={12} lg={6} key={product.id}>
       {showErrorAlert && (
@@ -112,6 +119,16 @@ function ProductCard({ product, cart }) {
         />
       )}
       <Card className={classes.root}>
+        <div className={classes.image}>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <img
+            className={classes.image}
+            id={product.id}
+            src={image}
+            alt={product.id}
+          />
+        </div>
+
         <div className={classes.box}>
           <h2 className={classes.title}>{product.title}</h2>
         </div>
