@@ -47,6 +47,9 @@ export const useStyles = makeStyles(theme => ({
     height: 61,
     overflow: 'none',
   },
+  add: {
+    marginLeft: -12,
+  },
   tableTitle: {
     fontWeight: 'bold',
     textAlign: 'left',

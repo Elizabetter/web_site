@@ -88,6 +88,7 @@ class ImageUploadCard extends React.Component {
   handleUploadClick = event => {
     // const formData = new FormData();
     const file = event.target.files[0];
+    console.log(file);
     // const finalFile = file[0];
     // // eslint-disable-next-line react/prop-types
     // eslint-disable-next-line react/prop-types

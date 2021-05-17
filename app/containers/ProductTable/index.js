@@ -32,6 +32,7 @@ const ProductTable = ({ products, handleClick, isSelected }) => {
             <TableRow>
               <TableTitle>
                 <Button
+                  className={classes.add}
                   onClick={() => {
                     history.push(routes.ADD_PRODUCT);
                   }}
