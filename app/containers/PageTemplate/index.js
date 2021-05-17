@@ -11,7 +11,7 @@ import LeftMenu from '../LeftMenu';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    backgroundColor: 'white',
+    backgroundColor: '#f3f3f3',
     minHeight: 1200,
   },
   content: {

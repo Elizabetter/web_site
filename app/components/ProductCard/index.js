@@ -18,15 +18,15 @@ import CustomizedSnackbars from '../Alert';
 export const useStyles = makeStyles(() => ({
   root: {
     width: 280,
-    height: 350,
+    minHeight: 480,
     margin: 40,
     padding: 30,
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   },
   image: {
     marginTop: -10,
     width: 260,
-    height: 150,
+    height: 260,
     marginLeft: -10,
   },
   box: {
@@ -39,45 +39,45 @@ export const useStyles = makeStyles(() => ({
     gridTemplateRows: 'repeat(4)',
   },
   title: {
-    marginTop: -10,
-    color: 'white',
+    marginTop: 10,
+    color: 'black',
   },
   content: {
-    color: 'white',
+    color: 'black',
   },
   price: {
-    color: 'white',
+    color: 'black',
     fontSize: 25,
   },
   currency: {
-    color: 'white',
+    color: 'black',
     marginLeft: 5,
     marginTop: 10,
   },
   cost: {
-    color: 'white',
+    color: 'black',
     margin: 10,
     marginLeft: -2,
     marginTop: 10,
     display: 'flex',
   },
   contentDate: {
-    color: 'white',
+    color: 'black',
     marginTop: 10,
   },
   delete: {
     marginTop: 17,
-    color: 'white',
+    color: 'black',
     height: 30,
   },
   add: {
     marginTop: 17,
     marginLeft: -5,
-    backgroundColor: 'white',
-    color: 'black',
+    backgroundColor: '#337ab7',
+    color: 'white',
     height: 30,
     '&:hover': {
-      backgroundColor: 'grey',
+      backgroundColor: '#337ab7',
       color: 'black',
     },
   },
