@@ -17,20 +17,21 @@ import CustomizedSnackbars from '../Alert';
 
 export const useStyles = makeStyles(() => ({
   root: {
-    width: 280,
-    minHeight: 480,
+    width: 390,
+    height: 900,
     margin: 40,
     padding: 30,
     backgroundColor: 'white',
   },
   image: {
     marginTop: -10,
-    width: 260,
-    height: 260,
+    width: 390,
+    height: 390,
     marginLeft: -10,
   },
   box: {
-    width: 200,
+    height: 80,
+    width: 315,
     textAlign: 'center',
   },
   final: {
@@ -43,6 +44,7 @@ export const useStyles = makeStyles(() => ({
     color: 'black',
   },
   content: {
+    height: 280,
     color: 'black',
   },
   price: {

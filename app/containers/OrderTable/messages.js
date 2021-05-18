@@ -11,6 +11,10 @@ export default defineMessages({
     id: `${scope}.number`,
     defaultMessage: 'Номер телефона',
   },
+  products: {
+    id: `${scope}.products`,
+    defaultMessage: 'Перечень товаров',
+  },
   address: {
     id: `${scope}.address`,
     defaultMessage: 'Адрес',

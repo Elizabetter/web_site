@@ -12,7 +12,7 @@ export function Orders() {
       setResponse(r.data.content);
     });
   }, []);
-
+  console.log(response);
   const [selected, setSelected] = React.useState([]);
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);

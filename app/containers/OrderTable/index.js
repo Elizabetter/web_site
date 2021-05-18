@@ -40,12 +40,26 @@ const OrderTable = ({ products, handleClick, isSelected }) => {
               <TableTitle>
                 <FormattedMessage {...messages.number} />
               </TableTitle>
+              <TableTitle>
+                <FormattedMessage {...messages.products} />
+              </TableTitle>
             </TableRow>
           </TableHead>
           <TableBody>
             {products.map(row => {
-              const { id, phoneNumber, address, price } = row;
+              const { id, phoneNumber, address, amount } = row;
               const isItemSelected = isSelected(id);
+              let finalProducts = '';
+              // eslint-disable-next-line array-callback-return
+              products.map(
+                // eslint-disable-next-line no-return-assign
+                item =>
+                  item.products.map(
+                    // eslint-disable-next-line no-return-assign
+                    product =>
+                      (finalProducts = `${finalProducts} ${product.title},`),
+                  ),
+              );
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={id}>
                   <TableCell
@@ -59,8 +73,9 @@ const OrderTable = ({ products, handleClick, isSelected }) => {
                   </TableCell>
                   <TableCell>{id}</TableCell>
                   <TableCell>{address}</TableCell>
-                  <TableCell>{price} бел.руб.</TableCell>
+                  <TableCell>{amount} бел.руб.</TableCell>
                   <TableCell>{phoneNumber}</TableCell>
+                  <TableCell>{finalProducts}</TableCell>
                 </TableRow>
               );
             })}

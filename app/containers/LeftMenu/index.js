@@ -128,7 +128,12 @@ const LeftMenu = ({ handleDrawerToggle, mobileOpen }) => {
           {user && role === roleTypes.ADMIN && (
             <ListItem
               button
-              onClick={() => window.open('https://vk.com/arturqa_s', '_blank')}
+              onClick={() =>
+                window.open(
+                  'https://app.forestadmin.com/Drones/Development/Operations/data/account/index',
+                  '_blank',
+                )
+              }
             >
               <ListItemText primary="Админ DB" />
             </ListItem>
@@ -136,9 +141,11 @@ const LeftMenu = ({ handleDrawerToggle, mobileOpen }) => {
           {user && role === roleTypes.ADMIN && (
             <ListItem
               button
-              onClick={() => window.open('https://vk.com/arturqa_s', '_blank')}
+              onClick={() =>
+                window.open('https://vk.com/im?media=&sel=537216628', '_blank')
+              }
             >
-              <ListItemText primary="Админ" />
+              <ListItemText primary="Поддержка DB" />
             </ListItem>
           )}
         </Collapse>
