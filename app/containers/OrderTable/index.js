@@ -51,14 +51,9 @@ const OrderTable = ({ products, handleClick, isSelected }) => {
               const isItemSelected = isSelected(id);
               let finalProducts = '';
               // eslint-disable-next-line array-callback-return
-              products.map(
+              row.products.map(
                 // eslint-disable-next-line no-return-assign
-                item =>
-                  item.products.map(
-                    // eslint-disable-next-line no-return-assign
-                    product =>
-                      (finalProducts = `${finalProducts} ${product.title},`),
-                  ),
+                item => (finalProducts = `${finalProducts} ${item.title},`),
               );
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={id}>
