@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { Controller, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useHistory } from 'react-router-dom';
 import { SaveButton } from '../../components/Buttons';
 import TextFormField from '../../components/FormFields/TextFormField';
 import FormActions from '../../components/FormActions';
@@ -11,6 +12,7 @@ import { create } from '../../dataProvider/API';
 import CustomizedSnackbars from '../../components/Alert';
 import { alertType } from '../../constants/api';
 import { CONFIRM } from '../../constants/endpoints';
+import { routes } from '../../constants/routes';
 
 const formFields = {
   phoneNumber: 'phoneNumber',
@@ -27,12 +29,14 @@ function Confirm({ children, id, accountId, amount }) {
   const { control, errors, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
+  const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    history.push(routes.MAIN);
   };
   const [showAlert, setShowAlert] = React.useState(false);
 
@@ -52,7 +56,7 @@ function Confirm({ children, id, accountId, amount }) {
         setTimeout(function() {
           setShowAlert(false);
           handleClose();
-        }, 5000);
+        }, 2000);
       });
   };
 

@@ -27,13 +27,17 @@ export function Cart() {
     <PageTemplate header="Корзина">
       <div className={classes.final}>{productCards}</div>
       <br />
-      <Confirm
-        id={response.id}
-        accountId={response.accountId}
-        amount={response.amount}
-      >
-        <SaveButton>Оформить заказ</SaveButton>
-      </Confirm>
+      {response.products && response.products.length > 0 ? (
+        <Confirm
+          id={response.id}
+          accountId={response.accountId}
+          amount={response.amount}
+        >
+          <SaveButton>Оформить заказ</SaveButton>
+        </Confirm>
+      ) : (
+        <p>Ваша корзина пуста</p>
+      )}
     </PageTemplate>
   );
 }
